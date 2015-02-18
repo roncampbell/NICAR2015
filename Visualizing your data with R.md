@@ -45,7 +45,7 @@ Geom in ggplot2 stands for “geometric object.” It tells ggplot2 what kind of
 
 Now let’s add a wrinkle. About 80 of the 300 hospitals in our data are safety net hospitals; more than half their patients are poor. Are they more likely to get fined by Medicare? And while we’re at it, let’s write a title for this chart:
 
-> qplot(X2015Penalty, data=NewHosp, main="Hospital Fines by Safety Net Status", color=SafetyNet)
+> qplot(X2015Penalty, data=HospitalFines2015, main="Hospital Fines by Safety Net Status", color=SafetyNet)
 
 One lurking variable in the fines is something called “hospital-associated conditions” or HAC. Think MRSA or other infections that spread in hospitals. Hospitals are graded on a 1-to-10 scale; those graded 7 or higher lost 1 percent of their Medicare funding this year. That’s it; score 6.9, and you get away with it. Score 7.0 or 9.9, and either way you lose 1 percent. On-off, win-lose. So up to a point, HAC scores really should have nothing to do with total penalties, should they? Well, we’re just looking.
 
@@ -84,10 +84,10 @@ ggplot(HospitalFines2015, aes(y=X2015Penalty, x=1)) + geom_boxplot()
 
 Note that x, the x-axis is set to 1; it’s a dummy variable here. And this initial boxplot doesn’t tell us anything we didn’t already know. But when we add SafetyNet to the mix, we get some good information.
 
-ggplot(NewHosp, aes(y=X2015Penalty, x=SafetyNet)) + geom_boxplot()
+ggplot(HospitalFines2015, aes(y=X2015Penalty, x=SafetyNet)) + geom_boxplot()
 
 Finally, we examine penalties by hospital size, using the BedCategory variable. And as an added wrinkle, we’ll insert a title and x- and y-axis labels on the chart using the labs() command:
 
-ggplot(NewHosp, aes(y=X2015Penalty, x=BedCategory)) + geom_boxplot() + labs(title="Penalties by Hospital Size", y="Total Penalty", x= "Size Category")
+ggplot(HospitalFines2015, aes(y=X2015Penalty, x=BedCategory)) + geom_boxplot() + labs(title="Penalties by Hospital Size", y="Total Penalty", x= "Size Category")
 
 
