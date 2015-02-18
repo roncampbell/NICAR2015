@@ -82,7 +82,7 @@ First let’s do a simple boxplot of hospital fines. We’ll add hospital size t
 
 ggplot(HospitalFines2015, aes(y=X2015Penalty, x=1)) + geom_boxplot()
 
-Note that x, the x-axis is set to 1; it’s a dummy variable here. And this initial boxplot doesn’t tell us anything we didn’t already know. But when we add SafetyNet to the mix, we get some good information.
+Note that x, the x-axis is set to 1; this is a dummy variable. And this initial boxplot doesn’t tell us anything we didn’t already know. But when we add SafetyNet to the mix, we get some good information.
 
 ggplot(HospitalFines2015, aes(y=X2015Penalty, x=SafetyNet)) + geom_boxplot()
 
