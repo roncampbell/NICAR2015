@@ -1,93 +1,155 @@
 Visualizing your data with R
-Ronald Campbell
-Center for Health Reporting
-714/425/5169
-rwcampbe@usc.edu
 
-R is powerful open-source statistics software. It gains much of its power because the user can attach thousands of packages to perform complex tasks. If you’re mechanically inclined, think of R as a digital socket wrench with many, many, many sockets in the toolbox. My personal favorite package, at least for the moment, is ggplot2, which lets people with no design sense at all – like me – explore data and whip up gorgeous graphics.
+Ronald Campbell, Center for Health Reporting
 
-Everything for this class is available at my github repository, https://github.com/roncampbell/NICAR2015
+714/425/5169, rwcampbe@usc.edu
 
-We’ll be using at least one and possibly two data files, HospitalFines2015.csv and, if time permits, KinderVaccine2015.csv. HospitalFines is a table of the fines imposed by Medicare on about 300 California hospitals in the fiscal year that began on Oct. 1, 2014. KinderVaccine lists kindergarten vaccination exemptions for about 7,000 California schools in October 2014 with the reason, including the most prominent – conditional (did not complete vaccinations) and personal belief that vaccines harm health (PBE). The KinderVaccine file also lists the number and percentage at each school – not just kindergarteners – who receive free or reduced-cost lunches, a proxy for poverty.
+R is powerful open-source statistics software. It gains much of its power because the user
+can attach thousands of packages to perform complex tasks. If you’re mechanically
+inclined, think of R as a digital socket wrench with many, many, many sockets in the
+toolbox. My personal favorite package, at least for the moment, is ggplot2, which lets
+people with no design sense at all – like me – explore data and whip up gorgeous graphics.
 
-In this class we will teach three types of visualization: the base program included with R and the two far superior types included with ggplot2, qplot and ggplot. Since charting in R is command-line driven, I’ll give you a running commentary on the syntax.
+Everything for this class is available at my github repository,
+https://github.com/roncampbell/NICAR2015
+
+We’ll be using at least one and possibly two data files, HospitalFines2015.csv and, if
+time permits, KinderVaccine2015.csv. HospitalFines is a table of the fines imposed by
+Medicare on about 300 California hospitals in the fiscal year that began on Oct. 1, 2014.
+KinderVaccine lists kindergarten vaccination exemptions for about 7,000 California schools
+in October 2014 with the reason, including the most prominent – conditional (did not
+complete vaccinations) and personal belief that vaccines harm health (PBE). The
+KinderVaccine file also lists the number and percentage at each school – not just
+kindergarteners – who receive free or reduced-cost lunches, a proxy for poverty.
+
+In this class we will teach three types of visualization: the base program included with R
+and the two far superior types included with ggplot2, qplot and ggplot. Since charting in
+R is command-line driven, I’ll give you a running commentary on the syntax.
 
 Part 1: Basic R charts
 
-Let’s start with the simplest, a scatterplot of penalties. This will show how high the penalties go (or decline) as we count down the number of hospitals.
+Let’s start with the simplest, a scatterplot of penalties. This will show how high the
+penalties go (or decline) as we count down the number of hospitals.
 
 plot(HospitalFines2015$X2015Penalty)
 
-A few words about syntax: It’s not enough to spell tables and columns correctly. You have to capitalize the correct words too. It’s “plot”, not “Plot”. It’s HospitalFines2015, not hospitalfines2015. “Plot” is a non-existent function and R won’t be able to find a table called “hospitalfines2015”. Column names are connected to parent tables by the dollar-sign. Don’t ask why, just do it. 
+A few words about syntax: It’s not enough to spell tables and columns correctly. You have
+to capitalize the correct words too. It’s “plot”, not “Plot”. It’s HospitalFines2015, not
+hospitalfines2015. “Plot” is a non-existent function and R won’t be able to find a table
+called “hospitalfines2015”. Column names are connected to parent tables by the
+dollar-sign. Don’t ask why, just do it. 
 
-Next we’ll do a boxplot. Here’s how to do that in base R, this time looking at the variable Beds:
+Next we’ll do a boxplot. Here’s how to do that in base R, this time looking at the
+variable Beds:
 boxplot(HospitalFines2015$Beds)
 
-A boxplot is a way of representing the distribution of data. The box contains half the data – everything between the 25th and 75th percentiles. By the way, the distance between the 25th and 75th percentiles is also known as the Interquartile Range (IQR). That thick black line within the box is the median. Those vertical lines extending above and below the line go exactly 1.5 times the Interquartile Range. There may be horizontal lines at their tops, known as “whiskers”. Anything above the whiskers are, by convention, outliers. You can safely say that these are stories.
+A boxplot is a way of representing the distribution of data. The box contains half the
+data – everything between the 25th and 75th percentiles. By the way, the distance between
+the 25th and 75th percentiles is also known as the Interquartile Range (IQR). That thick
+black line within the box is the median. Those vertical lines extending above and below
+the line go exactly 1.5 times the Interquartile Range. There may be horizontal lines at
+their tops, known as “whiskers”. Anything above the whiskers are, by convention, outliers.
+You can safely say that these are stories.
 
-The other really common graphic in base R is the histogram, a column chart that displays the frequency distribution of data.
+The other really common graphic in base R is the histogram, a column chart that displays
+the frequency distribution of data.
 
 hist(HospitalFines2015$X2015Penalty)
 
-So far we have not seen anything that Excel could not do better. But ggplot2 can do far, far more.
+So far we have not seen anything that Excel could not do better. But ggplot2 can do far,
+far more.
 
 Part 2: Better R charts – ggplot2 and qplot
 
-ggplot2 is really two graphics programs in one. The simpler of the two is qplot, which stands for quick plot. 
+ggplot2 is really two graphics programs in one. The simpler of the two is qplot, which
+stands for quick plot. 
 
-Let’s start where we left off with base R, with a histogram. The syntax is harder, but the results are spectacular:
+Let’s start where we left off with base R, with a histogram. The syntax is harder, but the
+results are spectacular:
 
 qplot(X2015Penalty, data=HospitalFines2015, geom="histogram")
 
-Let’s parse that: We call the program, qplot(). Within the parentheses we then call the column, then the key word “data” which we link to the table HospitalFines2015 with an = sign, and then throw in an oddball term “geom” and a term you already know – histogram.
+Let’s parse that: We call the program, qplot(). Within the parentheses we then call the
+column, then the key word “data” which we link to the table HospitalFines2015 with an =
+sign, and then throw in an oddball term “geom” and a term you already know – histogram.
 
-Geom in ggplot2 stands for “geometric object.” It tells ggplot2 what kind of chart you want to draw. 
+Geom in ggplot2 stands for “geometric object.” It tells ggplot2 what kind of chart you
+want to draw. 
 
-Now let’s add a wrinkle. About 80 of the 300 hospitals in our data are safety net hospitals; more than half their patients are poor. Are they more likely to get fined by Medicare? And while we’re at it, let’s write a title for this chart:
+Now let’s add a wrinkle. About 80 of the 300 hospitals in our data are safety net
+hospitals; more than half their patients are poor. Are they more likely to get fined by
+Medicare? And while we’re at it, let’s write a title for this chart:
 
-> qplot(X2015Penalty, data=HospitalFines2015, main="Hospital Fines by Safety Net Status", color=SafetyNet)
+> qplot(X2015Penalty, data=HospitalFines2015, main="Hospital Fines by Safety Net Status",
+color=SafetyNet)
 
-One lurking variable in the fines is something called “hospital-associated conditions” or HAC. Think MRSA or other infections that spread in hospitals. Hospitals are graded on a 1-to-10 scale; those graded 7 or higher lost 1 percent of their Medicare funding this year. That’s it; score 6.9, and you get away with it. Score 7.0 or 9.9, and either way you lose 1 percent. On-off, win-lose. So up to a point, HAC scores really should have nothing to do with total penalties, should they? Well, we’re just looking.
+One lurking variable in the fines is something called “hospital-associated conditions” or
+HAC. Think MRSA or other infections that spread in hospitals. Hospitals are graded on a
+1-to-10 scale; those graded 7 or higher lost 1 percent of their Medicare funding this
+year. That’s it; score 6.9, and you get away with it. Score 7.0 or 9.9, and either way you
+lose 1 percent. On-off, win-lose. So up to a point, HAC scores really should have nothing
+to do with total penalties, should they? Well, we’re just looking.
 
-> qplot(HAI15, X2015Penalty, data=HospitalFines2015, geom=c("point", "smooth"),method="lm")
+> qplot(HAI15, X2015Penalty, data=HospitalFines2015, geom=c("point",
+"smooth"),method="lm")
 
-Unpacking this, we’re doing a scatter of two fields, HAI15 (the hospital-acquired infection scores) and total penalties. The syntax geom.=c(“point”,”smooth”) means this: create a geometric object that combines points and then smooths them. And that last bit, “method=’lm’”? That adds a “linear model”, a linear regression line, to the mix. With this, you can see there is a pattern.
+Unpacking this, we’re doing a scatter of two fields, HAI15 (the hospital-acquired
+infection scores) and total penalties. The syntax geom=c(“point”,”smooth”) means this:
+create a geometric object that combines points and then smooths them. And that last bit,
+“method=’lm’”? That adds a “linear model”, a linear regression line, to the mix. With
+this, you can see there is a pattern.
 
-Now let’s add one more wrinkle, distinguishing between safety net and non-safety net hospitals:
+Now let’s add one more wrinkle, distinguishing between safety net and non-safety net
+hospitals:
 
-> qplot(HAI15, X2015Penalty, data=HospitalFines2015, geom=c("point", "smooth"),method="lm", color=SafetyNet)
+> qplot(HAI15, X2015Penalty, data=HospitalFines2015, geom=c("point",
+"smooth"),method="lm", color=SafetyNet)
 
 The pattern now becomes starkly clear.
 
 Part 3: Advanced graphics with ggplot
 
-The key difference between qplot and ggplot is that with the latter we can create layers and build a structure.
+The key difference between qplot and ggplot is that with the latter we can create layers
+and build a structure.
 
 h <- ggplot(data=HospitalFines2015) + geom_histogram(aes(x = X2015Penalty))
 h 
 
-First we create a variable (we’re going to use that in a moment). Then we invoke the program, ggplot and the table. Now we call geom, but in a different way: geom_ rather than geom=. And right after that we introduce a new term, “aes”, short for aesthetic. X, for the x-axis, is the now-familiar column X2015Penalty. 
+First we create a variable (we’re going to use that in a moment). Then we invoke the
+program, ggplot and the table. Now we call geom, but in a different way: geom_ rather than
+geom=. And right after that we introduce a new term, “aes”, short for aesthetic. X, for
+the x-axis, is the now-familiar column X2015Penalty. 
 
-After writing this long command, we then enter the variable to display the result – which looks exactly like what we got in qplot with way less work.
+After writing this long command, we then enter the variable to display the result – which
+looks exactly like what we got in qplot with way less work.
 
 But next we start seeing what all that layering is good for:
 
 h + facet_wrap(~SafetyNet)
 
-This produces two histograms, side by side, one of safety net hospitals and the other of non-safety nets. The differences are readily apparent. 
+This produces two histograms, side by side, one of safety net hospitals and the other of
+non-safety nets. The differences are readily apparent. 
 
-The boxplot did not tell us much in basic R. We can use it to much greater effect here. Does hospital size matter when it comes to the fines that Medicare is imposing? A boxplot can answer that question.
+The boxplot did not tell us much in basic R. We can use it to much greater effect here.
+Does hospital size matter when it comes to the fines that Medicare is imposing? A boxplot
+can answer that question.
 
-First let’s do a simple boxplot of hospital fines. We’ll add hospital size to the equation next.
+First let’s do a simple boxplot of hospital fines. We’ll add hospital size to the equation
+next.
 
 ggplot(HospitalFines2015, aes(y=X2015Penalty, x=1)) + geom_boxplot()
 
-Note that x, the x-axis is set to 1; this is a dummy variable. And this initial boxplot doesn’t tell us anything we didn’t already know. But when we add SafetyNet to the mix, we get some good information.
+Note that x, the x-axis is set to 1; this is a dummy variable. And this initial boxplot
+doesn’t tell us anything we didn’t already know. But when we add SafetyNet to the mix, we
+get some good information.
 
 ggplot(HospitalFines2015, aes(y=X2015Penalty, x=SafetyNet)) + geom_boxplot()
 
-Finally, we examine penalties by hospital size, using the BedCategory variable. And as an added wrinkle, we’ll insert a title and x- and y-axis labels on the chart using the labs() command:
+Finally, we examine penalties by hospital size, using the BedCategory variable. And as an
+added wrinkle, we’ll insert a title and x- and y-axis labels on the chart using the labs()
+command:
 
-ggplot(HospitalFines2015, aes(y=X2015Penalty, x=BedCategory)) + geom_boxplot() + labs(title="Penalties by Hospital Size", y="Total Penalty", x= "Size Category")
+ggplot(HospitalFines2015, aes(y=X2015Penalty, x=BedCategory)) + geom_boxplot() +
+labs(title="Penalties by Hospital Size", y="Total Penalty", x= "Size Category")
 
 
