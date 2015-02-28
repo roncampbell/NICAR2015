@@ -145,11 +145,23 @@ get some good information.
 
 ggplot(HospitalFines2015, aes(y=X2015Penalty, x=SafetyNet)) + geom_boxplot()
 
-Finally, we examine penalties by hospital size, using the BedCategory variable. And as an
+Next, we examine penalties by hospital size, using the BedCategory variable. And as an
 added wrinkle, we’ll insert a title and x- and y-axis labels on the chart using the labs()
 command:
 
 ggplot(HospitalFines2015, aes(y=X2015Penalty, x=BedCategory)) + geom_boxplot() +
 labs(title="Penalties by Hospital Size", y="Total Penalty", x= "Size Category")
 
+Finally, let's wrap up by having a little fun with hospital sizes. We'll create a bar chart, a pie chart and a radar chart, all by tweaking the same code.
 
+ggplot(HospitalFines2015, aes(factor(BedCategory), fill=factor(BedCategory))) geom_bar(width=1)
+
+This creates a bar chart in four colors. Remember, the factor BedCategory splits hospitals into four groups based on number of beds. This code declares BedCategory a factor, then uses that as a fill or color, then calls for a bar chart. Now with just a few modifications we'll convert the bar chart to a pie chart:
+
+ggplot(HospitalFines2015, aes(x=factor(1), fill=factor(BedCategory))) + geom_bar(width=1) + coord_polar(theta="y")
+
+Two changes should be apparent: We've added a dummy x-axis ("x=factor(1)"), and there's that coord_polar stuff at the end. That transforms the chart from a bar to a pie. And finally we'll go a bit nuts by turning the pie inside out.
+
+ggplot(HospitalFines2015, aes(factor(BedCategory), fill=factor(BedCategory))) + geom_bar(width=1) + coord_polar()
+
+EXTRA CREDIT: Try some of these visualizations with the KinderVaccine2015.csv data. If you finish, treat yourself to a trip to Disneyland, epicenter of the measles outbreak. Be sure to get vaccinated first. 
